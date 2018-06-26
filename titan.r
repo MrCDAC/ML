@@ -8,16 +8,16 @@ cost<-function(theta,x,y){
   j<-0
   h<-sigmoid(x%*%theta)
   j<- sum(-y*log(h)-(1-y)*log(1-h))/s[1]
- return (j)
-    
+  return (j)
+  
 }
 grad<-function(theta,x,y,a){
   s<-dim(x)
-  j_hist<-rep(0,50);
-  for(i in (1:50))
+  j_hist<-rep(0,50000);
+  for(i in (1:50000))
   {
     h<-sigmoid(x%*%theta)
-    theta<-(theta-(a*(t(x)%*%(h-y))))/s[1]
+    theta<-theta-(a*(t(x)%*%(h-y)))/s[1]
     c<-cost(theta,x,y)
     j_hist[i]<-c
   }
@@ -41,7 +41,7 @@ x<-data.matrix(x)
 y<-data.matrix(y)
 theta<-data.matrix(theta)
 print(cost(theta,x,y))
-theta<-grad(theta,x,y,0.001)
+theta<-grad(theta,x,y,0.1)
 
 print(cost(theta,x,y))
 print(theta)
@@ -60,5 +60,7 @@ x_test<-data.matrix(x_test)
 h_test<-sigmoid(x_test%*%theta)
 
 
+h_test<-round(h_test)
+print(sum(h_test))
 
 
